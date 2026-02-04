@@ -1391,12 +1391,12 @@ body::before {
   opacity: 0.6;
 }
 
-/* Barre « Commander » fixe en bas — visible uniquement sur mobile */
+/* Barre « Commander » fixe en bas — visible uniquement sur mobile / petites tablettes */
 .product-detail-commander-bar {
   display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .product-detail-commander-bar {
     display: block;
     position: fixed;
@@ -1414,13 +1414,13 @@ body::before {
     width: 100%;
     margin: 0;
   }
-  /* Contenu non masqué sous la barre fixe */
+  /* Contenu non masqué sous la barre fixe sur mobile */
   .product-detail {
     padding-bottom: 5.5rem;
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .hero h1 {
     font-size: 1.5rem;
   }

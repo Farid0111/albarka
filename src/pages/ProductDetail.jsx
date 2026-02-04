@@ -61,16 +61,39 @@ export default function ProductDetail() {
   const [isPayButtonVisible, setIsPayButtonVisible] = useState(true)
   const [shouldScrollToForm, setShouldScrollToForm] = useState(false)
 
-  // Afficher le bouton fixe du bas seulement quand le bloc Commander principal sort de l'écran (scroll)
+  // Afficher le bouton fixe du bas seulement quand le bloc Commander principal sort réellement de l'écran (scroll)
   useEffect(() => {
     const el = payBlockRef.current
     if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsPayButtonVisible(entry.isIntersecting),
-      { threshold: 0, rootMargin: '0px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
+
+    // Fonction commune pour déterminer si le bloc principal est visible à l'écran
+    const computeVisibility = () => {
+      const rect = el.getBoundingClientRect()
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0
+      const fullyBelow = rect.top >= viewportHeight
+      const fullyAbove = rect.bottom <= 0
+      return !(fullyBelow || fullyAbove)
+    }
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        const rect = entry.boundingClientRect
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0
+        const fullyBelow = rect.top >= viewportHeight
+        const fullyAbove = rect.bottom <= 0
+        setIsPayButtonVisible(!(fullyBelow || fullyAbove))
+      })
+      observer.observe(el)
+      return () => observer.disconnect()
+    }
+
+    // Fallback pour les navigateurs qui ne supportent pas IntersectionObserver
+    const handleScroll = () => {
+      setIsPayButtonVisible(computeVisibility())
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [product?.id])
 
   // Après ouverture du formulaire depuis le bouton du bas : scroll vers le formulaire
