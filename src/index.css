@@ -493,6 +493,7 @@ body::before {
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
+  overflow-wrap: break-word; /* éviter les débordements sur mobile */
 }
 
 .product-card-description {
@@ -504,6 +505,7 @@ body::before {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: break-word; /* forcer le retour à la ligne si mot trop long */
 }
 
 .product-price {
@@ -745,6 +747,8 @@ body::before {
   font-size: 1.05rem;
   line-height: 1.6;
   margin: 0 0 1.5rem;
+  overflow-wrap: break-word; /* détail produit : intro qui se casse bien sur mobile */
+  word-break: break-word;
 }
 
 .product-desc-block {
@@ -764,6 +768,8 @@ body::before {
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
+  overflow-wrap: break-word; /* présentation / ingrédients / préparation / bienfaits… */
+  word-break: break-word;
 }
 
 .product-desc-block ul {
@@ -1221,6 +1227,7 @@ body::before {
   margin: 0;
   font-size: 1.05rem;
   line-height: 1.6;
+  overflow-wrap: break-word; /* les phrases se coupent correctement sur petit écran */
 }
 
 /* How it works */
