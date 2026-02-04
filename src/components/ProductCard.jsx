@@ -9,12 +9,19 @@ export default function ProductCard({ product }) {
     description = product?.desc ?? '',
     price = 0,
     emoji = '📦',
+    image = product?.imageUrl ?? product?.image ?? product?.photo,
   } = product ?? {}
 
   return (
     <article className="product-card">
       <Link to={`/produits/${id}`} className="product-card-link">
-        <div className="product-image">{emoji}</div>
+        <div className="product-image">
+          {image ? (
+            <img src={image} alt={name} loading="lazy" />
+          ) : (
+            emoji
+          )}
+        </div>
         <h3 className="product-card-name">{name}</h3>
         {description && (
           <p className="product-card-description">{description}</p>

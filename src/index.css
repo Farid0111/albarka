@@ -96,6 +96,15 @@ body::before {
 
 .logo:hover {
   color: var(--accent);
+  opacity: 0.95;
+}
+
+.logo-img {
+  height: 52px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
 }
 
 .logo-icon {
@@ -446,13 +455,21 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
+  height: 200px;
   background: linear-gradient(145deg, var(--accent-soft) 0%, var(--warm-soft) 100%);
   border-radius: var(--radius-sm);
   margin: 0 1.25rem 1.25rem;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .product-card:hover .product-image {
@@ -518,7 +535,7 @@ body::before {
 
 .product-detail-main {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: minmax(240px, 320px) 1fr;
   gap: 2.5rem;
   align-items: start;
   margin-bottom: 2.5rem;
@@ -527,6 +544,8 @@ body::before {
 .product-detail-image-wrap {
   position: sticky;
   top: 1rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .product-detail-image {
@@ -535,12 +554,14 @@ body::before {
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 1;
+  max-height: min(420px, 50vw);
   font-size: 8rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 0;
   line-height: 1;
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -568,7 +589,7 @@ body::before {
 .product-detail-image-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 
@@ -812,30 +833,36 @@ body::before {
 
 .product-reviews h2 {
   margin: 0 0 1rem;
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
 }
 
-/* Avis en grand (style type Moov / réseaux sociaux) */
+/* Avis en grand (style type Moov / réseaux sociaux) — section en pleine largeur pour agrandir les images */
 .product-reviews-large {
   background: linear-gradient(180deg, #2a2e2a 0%, #1e221e 100%);
   border: none;
-  border-radius: var(--radius);
-  padding: 2rem;
+  border-radius: 0;
+  padding: 2rem 1.5rem;
   margin-top: 2.5rem;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
   box-shadow: var(--shadow-hover);
 }
 
 .product-reviews-title {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   margin: 0 0 0.35rem;
 }
 
 .product-reviews-subtitle {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.95rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   margin: 0 0 1.5rem;
+  line-height: 1.5;
 }
 
 .product-reviews-large .review-images-loading,
@@ -843,6 +870,8 @@ body::before {
   color: rgba(255, 255, 255, 0.8);
   background: transparent;
   border: none;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.5;
 }
 
 .review-images-gallery-large {
@@ -850,9 +879,17 @@ body::before {
   flex-direction: column;
   gap: 1.25rem;
   margin-top: 0;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Card réduite exactement à la taille de l’image */
 .review-image-card {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   background: #3d3d3d;
   border-radius: 12px;
   overflow: hidden;
@@ -861,17 +898,18 @@ body::before {
 
 .review-image-link-large {
   display: block;
-  width: 100%;
 }
 
+/* L’image définit la taille ; la card suit */
 .review-image-large {
-  width: 100%;
-  max-width: 100%;
+  width: auto;
   height: auto;
-  max-height: 70vh;
-  object-fit: contain;
+  max-width: 100%;
+  max-height: 96vh;
   display: block;
+  vertical-align: middle;
   background: #2d2d2d;
+  cursor: pointer;
 }
 
 .review-image-link-large:hover .review-image-large {
@@ -880,8 +918,9 @@ body::before {
 
 .reviews-summary {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
   margin: 0 0 1.5rem;
+  line-height: 1.5;
 }
 
 .reviews-summary strong {
@@ -898,13 +937,13 @@ body::before {
 
 .review-form h3 {
   margin: 0 0 1rem;
-  font-size: 1rem;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
 }
 
 .review-form label {
   display: block;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
   color: var(--text-muted);
 }
 
@@ -918,12 +957,14 @@ body::before {
   display: block;
   width: 100%;
   margin-top: 0.35rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.85rem;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text);
-  font: inherit;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-family: inherit;
+  line-height: 1.4;
 }
 
 .review-form textarea {
@@ -949,13 +990,15 @@ body::before {
   background: var(--bg-card);
   border: 1px dashed var(--border);
   border-radius: var(--radius);
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.5;
 }
 
 .review-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .review-header {
@@ -968,24 +1011,25 @@ body::before {
 .review-author {
   font-weight: 600;
   color: var(--text);
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
 }
 
 .review-rating {
   color: #d4a84b;
-  font-size: 1rem;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
   letter-spacing: 0.05em;
 }
 
 .review-date {
-  font-size: 0.85rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   color: var(--text-muted);
 }
 
 .review-comment {
   margin: 0.5rem 0 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.4;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.55;
 }
 
 /* Avis clients en images (Firebase) */
@@ -997,6 +1041,8 @@ body::before {
   border: 1px dashed var(--border);
   border-radius: var(--radius);
   text-align: center;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.5;
 }
 
 .review-images-gallery {
@@ -1345,6 +1391,35 @@ body::before {
   opacity: 0.6;
 }
 
+/* Barre « Commander » fixe en bas — visible uniquement sur mobile */
+.product-detail-commander-bar {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .product-detail-commander-bar {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .product-detail-commander-bar .btn {
+    width: 100%;
+    margin: 0;
+  }
+  /* Contenu non masqué sous la barre fixe */
+  .product-detail {
+    padding-bottom: 5.5rem;
+  }
+}
+
 @media (max-width: 500px) {
   .hero h1 {
     font-size: 1.5rem;
@@ -1358,11 +1433,12 @@ body::before {
   }
   .product-detail-image-wrap {
     position: static;
-    max-width: 280px;
+    max-width: 100%;
     margin: 0 auto;
   }
   .product-detail-image {
     font-size: 6rem;
+    max-height: min(320px, 85vw);
   }
   .product-detail-emoji {
     font-size: 6rem;

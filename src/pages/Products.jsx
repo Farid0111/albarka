@@ -1,13 +1,20 @@
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Products() {
   const { products, loading, error, refetch } = useProducts()
+  const location = useLocation()
 
   useEffect(() => {
     refetch()
   }, [refetch])
+
+  // Afficher la page depuis le haut à chaque visite (catalogue et images visibles)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   return (
     <main style={{ flex: 1 }}>

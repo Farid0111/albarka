@@ -11,11 +11,10 @@ export function ProductsProvider({ children }) {
   const refetch = useCallback(() => {
     setLoading(true)
     setError(null)
-    setProducts([])
     getProducts()
-      .then((data) => setProducts(data))
+      .then((data) => setProducts(data || []))
       .catch((err) => {
-        setError(err.message || 'Erreur chargement produits')
+        setError(err?.message || 'Erreur chargement des produits')
         setProducts([])
       })
       .finally(() => setLoading(false))

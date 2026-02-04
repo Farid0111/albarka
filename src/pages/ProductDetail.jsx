@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { addOrder, getProductReviewImages } from '../services/firestore'
 
-const TIMER_SECONDS = 15 * 60 // 15 minutes
+const TIMER_SECONDS = 30 * 60 // 30 minutes
 
 const INITIAL_ORDER_FORM = {
   name: '',
@@ -27,6 +27,19 @@ export default function ProductDetail() {
   const [reviewImagesLoading, setReviewImagesLoading] = useState(true)
   const [timerSeconds, setTimerSeconds] = useState(TIMER_SECONDS)
   const [timerExpired, setTimerExpired] = useState(false)
+
+  // Afficher la page depuis le haut pour voir l'image du produit
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [id])
+
+  // Réinitialiser le timer quand on change de produit
+  useEffect(() => {
+    if (product?.id) {
+      setTimerSeconds(TIMER_SECONDS)
+      setTimerExpired(false)
+    }
+  }, [product?.id])
   const toUrl = (item) =>
     typeof item === 'string' ? item : (item?.url ?? item?.imageUrl ?? item?.image ?? item?.src)
   const isUrl = (u) => u && typeof u === 'string'
@@ -43,6 +56,30 @@ export default function ProductDetail() {
   const [orderErrors, setOrderErrors] = useState({})
   const [orderSent, setOrderSent] = useState(false)
   const [orderError, setOrderError] = useState(null)
+  const payBlockRef = useRef(null)
+  const orderFormWrapRef = useRef(null)
+  const [isPayButtonVisible, setIsPayButtonVisible] = useState(true)
+  const [shouldScrollToForm, setShouldScrollToForm] = useState(false)
+
+  // Afficher le bouton fixe du bas seulement quand le bloc Commander principal sort de l'écran (scroll)
+  useEffect(() => {
+    const el = payBlockRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsPayButtonVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: '0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [product?.id])
+
+  // Après ouverture du formulaire depuis le bouton du bas : scroll vers le formulaire
+  useEffect(() => {
+    if (showOrderForm && shouldScrollToForm && orderFormWrapRef.current) {
+      orderFormWrapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setShouldScrollToForm(false)
+    }
+  }, [showOrderForm, shouldScrollToForm])
 
   useEffect(() => {
     if (!product?.id) {
@@ -173,7 +210,7 @@ export default function ProductDetail() {
           <div className="product-detail-info">
             <h1>{product.name}</h1>
             <p className="product-detail-price">{product.price} FCFA</p>
-            <div className="product-detail-pay">
+            <div className="product-detail-pay" ref={payBlockRef}>
               {!timerExpired ? (
                 <>
                   <p className="product-detail-timer">
@@ -193,7 +230,7 @@ export default function ProductDetail() {
             </div>
             {/* Formulaire commande avec animation */}
             {showOrderForm && (
-              <div className="product-order-form-wrap">
+              <div className="product-order-form-wrap" ref={orderFormWrapRef}>
                 <div className="checkout-notice">
                   <strong>Paiement à la livraison</strong>
                   <p>Vous réglerez le montant en espèces à la livraison.</p>
@@ -339,6 +376,22 @@ export default function ProductDetail() {
           )}
         </section>
       </section>
+
+      {/* Barre fixe « Commander » en bas sur mobile — visible seulement quand le bouton principal a disparu au scroll */}
+      {!timerExpired && !showOrderForm && !orderSent && !isPayButtonVisible && (
+        <div className="product-detail-commander-bar" aria-hidden="true">
+          <button
+            type="button"
+            className="btn btn-primary btn-pay btn-block"
+            onClick={() => {
+              setShouldScrollToForm(true)
+              handlePay()
+            }}
+          >
+            Commander — {product.price} FCFA
+          </button>
+        </div>
+      )}
     </main>
   )
 }

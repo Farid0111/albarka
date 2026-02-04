@@ -4,6 +4,7 @@ export const PRODUCTS = [
     name: 'Thé vert digestion',
     price: 2500,
     emoji: '🍵',
+    image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=600',
     description: 'Mélange de thé vert et plantes digestives. Aide à apaiser l\'estomac et faciliter la digestion après les repas.',
     longDescription: {
       intro: 'Notre Thé vert digestion associe thé vert de qualité et plantes reconnues pour leurs propriétés digestives. Idéal après un repas copieux ou en cas de ballonnements.',
@@ -25,6 +26,7 @@ export const PRODUCTS = [
     name: 'Infusion nuit calme',
     price: 2200,
     emoji: '🌙',
+    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600',
     description: 'Camomille, tilleul et verveine pour un sommeil apaisé et une détente en fin de journée.',
     longDescription: {
       intro: 'L\'Infusion nuit calme réunit des plantes traditionnellement utilisées pour favoriser l\'endormissement et la détente. Sans théine, elle peut être bue le soir sans risque d\'excitation.',
@@ -46,6 +48,7 @@ export const PRODUCTS = [
     name: 'Thé immunité gingembre-citron',
     price: 2800,
     emoji: '🍋',
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600',
     description: 'Gingembre, citron et miel. Soutient les défenses naturelles et réchauffe en hiver.',
     longDescription: {
       intro: 'Ce thé associe gingembre, citron et notes de miel pour soutenir les défenses naturelles et réchauffer l\'organisme. Parfait en période froide ou en cas de fatigue passagère.',
@@ -67,6 +70,7 @@ export const PRODUCTS = [
     name: 'Thé énergie matin',
     price: 2600,
     emoji: '☀️',
+    image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=600',
     description: 'Thé noir léger et épices pour un réveil en douceur sans agresser l\'estomac.',
     longDescription: {
       intro: 'Le Thé énergie matin est conçu pour un réveil en douceur : thé noir léger, épices et une touche de douceur pour démarrer la journée sans agresser l\'estomac.',
@@ -88,6 +92,7 @@ export const PRODUCTS = [
     name: 'Rooibos anti-stress',
     price: 2400,
     emoji: '🫖',
+    image: 'https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=600',
     description: 'Rooibos sans théine, idéal pour la journée. Réduit la tension et favorise la sérénité.',
     longDescription: {
       intro: 'Le Rooibos anti-stress est une infusion 100 % sans théine à base de rooibos et de plantes apaisantes. Idéal pour la journée, il aide à retrouver le calme sans effet sédatif.',
@@ -109,6 +114,7 @@ export const PRODUCTS = [
     name: 'Thé détox menthe',
     price: 2700,
     emoji: '🌿',
+    image: 'https://images.unsplash.com/photo-1590881608158-8a33e1a7e0b8?w=600',
     description: 'Menthe fraîche et thé vert. Purifiant et rafraîchissant, parfait après les excès.',
     longDescription: {
       intro: 'Le Thé détox menthe associe thé vert et menthe fraîche pour une action purifiante et rafraîchissante. Idéal pour accompagner une cure légère ou après des excès alimentaires.',
@@ -130,6 +136,7 @@ export const PRODUCTS = [
     name: 'Infusion ventre léger',
     price: 2300,
     emoji: '🍃',
+    image: 'https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=600',
     description: 'Anis, fenouil et réglisse. Soulage les ballonnements et facilite le transit.',
     longDescription: {
       intro: 'L\'Infusion ventre léger réunit anis vert, fenouil et réglisse, des plantes traditionnellement utilisées pour le confort digestif et la réduction des ballonnements.',
@@ -151,6 +158,7 @@ export const PRODUCTS = [
     name: 'Thé bien-être curcuma',
     price: 2900,
     emoji: '🟡',
+    image: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=600',
     description: 'Curcuma, poivre noir et gingembre. Anti-inflammatoire et tonifiant pour l\'organisme.',
     longDescription: {
       intro: 'Le Thé bien-être curcuma associe curcuma, poivre noir et gingembre pour une action anti-inflammatoire et tonifiante. Inspiré des traditions ayurvédiques.',

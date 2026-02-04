@@ -7,8 +7,7 @@ export default function Header() {
   return (
     <header className="header">
       <Link to="/" className="logo">
-        <span className="logo-icon" aria-hidden>🍵</span>
-        <span>Thés Santé</span>
+        <img src="/logo-albarka.png" alt="Albarka - La Santé Végétale" className="logo-img" />
       </Link>
       <nav className="nav">
         <Link to="/">Accueil</Link>

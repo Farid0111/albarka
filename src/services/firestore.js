@@ -6,6 +6,7 @@ const REVIEWS_SUBCOLLECTION = 'reviews'
 
 /**
  * Normalise un produit Firestore pour que l'app ait toujours name, description, etc.
+ * Préserve longDescription (intro, description, ingredients, preparation, benefits, storage, format) en français.
  */
 function normalizeProduct(doc) {
   const data = doc.data()
@@ -16,6 +17,8 @@ function normalizeProduct(doc) {
     description: data.description ?? data.desc ?? '',
     price: data.price ?? 0,
     emoji: data.emoji ?? '📦',
+    image: data.image ?? data.imageUrl ?? data.photo ?? null,
+    longDescription: data.longDescription ?? null,
   }
 }
 
