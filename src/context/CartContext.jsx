@@ -18,11 +18,20 @@ export function CartProvider({ children }) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (productId) => {
+  const addToCart = (productId, quantity = 1) => {
     setCartState((prev) => ({
       ...prev,
-      [productId]: (prev[productId] || 0) + 1,
+      [productId]: (prev[productId] || 0) + Math.max(1, Number(quantity) || 1),
     }));
+  };
+
+  const setCartQuantity = (productId, quantity) => {
+    const q = Math.max(0, Number(quantity) || 0);
+    if (q < 1) {
+      removeFromCart(productId);
+      return;
+    }
+    setCartState((prev) => ({ ...prev, [productId]: q }));
   };
 
   const removeFromCart = (productId) => {
@@ -38,7 +47,7 @@ export function CartProvider({ children }) {
   const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cartCount }}>
+    <CartContext.Provider value={{ cart, addToCart, setCartQuantity, removeFromCart, clearCart, cartCount }}>
       {children}
     </CartContext.Provider>
   );

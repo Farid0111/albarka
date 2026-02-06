@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { addOrder } from '../services/firestore'
+import { getStrikethroughPrice } from '../utils/price'
 
 const INITIAL_FORM = {
   name: '',
@@ -25,7 +26,9 @@ export default function Checkout() {
       const product = getProductById(id)
       if (!product) return null
       const qty = cart[id]
-      return { ...product, qty, subtotal: product.price * qty }
+      const unitPrice = product.price
+      const priceBarré = getStrikethroughPrice(product.price)
+      return { ...product, qty, unitPrice, priceBarré, subtotal: unitPrice * qty }
     })
     .filter(Boolean)
   const total = items.reduce((s, i) => s + i.subtotal, 0)
@@ -59,7 +62,7 @@ export default function Checkout() {
           name: i.name,
           emoji: i.emoji,
           qty: i.qty,
-          price: i.price,
+          price: i.unitPrice,
           subtotal: i.subtotal,
         })),
         total,
@@ -151,11 +154,11 @@ export default function Checkout() {
             <ul>
               {items.map((item) => (
                 <li key={item.id}>
-                  {item.emoji} {item.name} × {item.qty} — {item.subtotal} FCFA
+                  {item.emoji} {item.name} × {item.qty} — <span className="price-strike">{item.priceBarré * item.qty} FCFA</span> <span className="price-current">{item.subtotal} FCFA</span>
                 </li>
               ))}
             </ul>
-            <p className="checkout-total"><strong>Total : {total} FCFA</strong></p>
+            <p className="checkout-total"><strong>Total : <span className="price-current">{total} FCFA</span></strong></p>
             <p className="checkout-payment-note">À régler à la livraison.</p>
           </div>
 

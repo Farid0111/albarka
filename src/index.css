@@ -516,6 +516,18 @@ body::before {
   letter-spacing: 0.02em;
 }
 
+.price-strike {
+  text-decoration: line-through;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-right: 0.35em;
+}
+
+.price-current {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .product-card .btn {
   margin: 1.25rem 1.35rem 1.35rem;
   width: calc(100% - 2.7rem);
@@ -630,6 +642,70 @@ body::before {
   font-weight: 700;
   font-size: 1.25rem;
   margin: 0 0 1rem;
+}
+
+.product-detail-qty {
+  margin-bottom: 1rem;
+}
+
+.product-detail-qty label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.qty-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+.qty-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.qty-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.qty-input {
+  width: 3rem;
+  height: 2.25rem;
+  border: none;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.qty-input::-webkit-inner-spin-button,
+.qty-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .product-detail-info {
@@ -1342,9 +1418,49 @@ body::before {
   color: var(--text-muted);
 }
 
+.cart-item-qty-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.cart-item-qty-selector .qty-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item-qty-selector .qty-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.cart-item-qty-num {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
 .cart-item-price {
   color: var(--accent);
   font-weight: 600;
+}
+
+.cart-item-price .price-strike {
+  margin-right: 0.25em;
 }
 
 .cart-summary {

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { getStrikethroughPrice } from '../utils/price'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
@@ -11,6 +12,7 @@ export default function ProductCard({ product }) {
     emoji = '📦',
     image = product?.imageUrl ?? product?.image ?? product?.photo,
   } = product ?? {}
+  const priceBarré = getStrikethroughPrice(price)
 
   return (
     <article className="product-card">
@@ -26,7 +28,10 @@ export default function ProductCard({ product }) {
         {description && (
           <p className="product-card-description">{description}</p>
         )}
-        <p className="product-price">{price} FCFA</p>
+        <p className="product-price">
+          <span className="price-strike">{priceBarré} FCFA</span>
+          <span className="price-current">{price} FCFA</span>
+        </p>
       </Link>
       <button
         type="button"

@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
+import { getStrikethroughPrice } from '../utils/price'
 
 export default function Cart() {
   const { getProductById } = useProducts()
-  const { cart, removeFromCart } = useCart()
+  const { cart, setCartQuantity, removeFromCart } = useCart()
   const ids = Object.keys(cart)
   const isEmpty = ids.length === 0
 
@@ -12,7 +13,9 @@ export default function Cart() {
     const product = getProductById(id)
     if (!product) return null
     const qty = cart[id]
-    return { ...product, qty, subtotal: product.price * qty }
+    const unitPrice = product.price
+    const priceBarré = getStrikethroughPrice(product.price)
+    return { ...product, qty, unitPrice, priceBarré, subtotal: unitPrice * qty }
   }).filter(Boolean)
 
   const total = items.reduce((s, i) => s + i.subtotal, 0)
@@ -46,8 +49,29 @@ export default function Cart() {
               <span className="cart-item-name">
                 {item.emoji || '📦'} {item.name}
               </span>
-              <span className="cart-item-qty">× {item.qty}</span>
-              <span className="cart-item-price">{item.subtotal} FCFA</span>
+              <div className="cart-item-qty-selector">
+                <button
+                  type="button"
+                  className="qty-btn"
+                  onClick={() => setCartQuantity(item.id, item.qty - 1)}
+                  aria-label="Diminuer"
+                >
+                  −
+                </button>
+                <span className="cart-item-qty-num">{item.qty}</span>
+                <button
+                  type="button"
+                  className="qty-btn"
+                  onClick={() => setCartQuantity(item.id, item.qty + 1)}
+                  aria-label="Augmenter"
+                >
+                  +
+                </button>
+              </div>
+              <span className="cart-item-price">
+                <span className="price-strike">{item.priceBarré * item.qty} FCFA</span>
+                <span className="price-current">{item.subtotal} FCFA</span>
+              </span>
               <button
                 type="button"
                 className="btn btn-small btn-ghost"

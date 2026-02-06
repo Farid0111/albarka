@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { addOrder, getProductReviewImages } from '../services/firestore'
+import { getStrikethroughPrice } from '../utils/price'
 
 const TIMER_SECONDS = 30 * 60 // 30 minutes
 
@@ -22,7 +23,7 @@ export default function ProductDetail() {
   const { id } = useParams()
   const { products, loading, getProductById } = useProducts()
   const product = getProductById(id)
-  const { cart, addToCart, clearCart } = useCart()
+  const { cart, setCartQuantity, clearCart } = useCart()
   const [reviewImages, setReviewImages] = useState([])
   const [reviewImagesLoading, setReviewImagesLoading] = useState(true)
   const [timerSeconds, setTimerSeconds] = useState(TIMER_SECONDS)
@@ -60,6 +61,7 @@ export default function ProductDetail() {
   const orderFormWrapRef = useRef(null)
   const [isPayButtonVisible, setIsPayButtonVisible] = useState(true)
   const [shouldScrollToForm, setShouldScrollToForm] = useState(false)
+  const [quantity, setQuantity] = useState(1)
 
   // Afficher le bouton fixe du bas seulement quand le bloc Commander principal sort réellement de l'écran (scroll)
   useEffect(() => {
@@ -156,7 +158,7 @@ export default function ProductDetail() {
   }
 
   const handlePay = () => {
-    addToCart(product.id)
+    setCartQuantity(product.id, quantity)
     setShowOrderForm(true)
   }
 
@@ -178,15 +180,16 @@ export default function ProductDetail() {
     e.preventDefault()
     if (!validateOrderForm()) return
     setOrderError(null)
-    const qty = cart[product.id] || 1
-    const items = [{ id: product.id, name: product.name, emoji: product.emoji, qty, price: product.price, subtotal: product.price * qty }]
+    const qty = cart[product.id] || quantity
+    const unitPrice = product.price
+    const items = [{ id: product.id, name: product.name, emoji: product.emoji, qty, price: unitPrice, subtotal: unitPrice * qty }]
     try {
       await addOrder({
         name: orderForm.name,
         phone: orderForm.phone,
         address: orderForm.address,
         items,
-        total: product.price * qty,
+        total: unitPrice * qty,
       })
       setOrderSent(true)
       clearCart()
@@ -195,8 +198,10 @@ export default function ProductDetail() {
     }
   }
 
-  const cartQty = cart[product.id] || 0
-  const total = product.price * (showOrderForm ? cartQty : 1)
+  const cartQty = cart[product.id] || quantity
+  const unitPrice = product.price
+  const total = unitPrice * (showOrderForm ? cartQty : quantity)
+  const priceBarré = getStrikethroughPrice(product.price)
 
   return (
     <main style={{ flex: 1 }}>
@@ -232,7 +237,40 @@ export default function ProductDetail() {
           </div>
           <div className="product-detail-info">
             <h1>{product.name}</h1>
-            <p className="product-detail-price">{product.price} FCFA</p>
+            <p className="product-detail-price">
+              <span className="price-strike">{priceBarré} FCFA</span>
+              <span className="price-current">{unitPrice} FCFA</span>
+            </p>
+            <div className="product-detail-qty">
+              <label htmlFor="product-qty">Quantité :</label>
+              <div className="qty-selector">
+                <button
+                  type="button"
+                  className="qty-btn"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  aria-label="Diminuer"
+                >
+                  −
+                </button>
+                <input
+                  id="product-qty"
+                  type="number"
+                  min={1}
+                  max={99}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Math.min(99, Number(e.target.value) || 1)))}
+                  className="qty-input"
+                />
+                <button
+                  type="button"
+                  className="qty-btn"
+                  onClick={() => setQuantity((q) => Math.min(99, q + 1))}
+                  aria-label="Augmenter"
+                >
+                  +
+                </button>
+              </div>
+            </div>
             <div className="product-detail-pay" ref={payBlockRef}>
               {!timerExpired ? (
                 <>
@@ -244,7 +282,7 @@ export default function ProductDetail() {
                     className="btn btn-primary btn-pay"
                     onClick={handlePay}
                   >
-                    Commander — {product.price} FCFA
+                    Commander — {unitPrice * quantity} FCFA
                   </button>
                 </>
               ) : (
@@ -411,7 +449,7 @@ export default function ProductDetail() {
               handlePay()
             }}
           >
-            Commander — {product.price} FCFA
+            Commander — {unitPrice * quantity} FCFA
           </button>
         </div>
       )}
