@@ -191,6 +191,20 @@ export default function ProductDetail() {
         items,
         total: unitPrice * qty,
       })
+
+      // 🔵 Facebook Pixel - Purchase
+if (window.fbq) {
+  window.fbq('track', 'Purchase', {
+    value: unitPrice * qty,
+    currency: 'XOF',
+    content_name: product.name,
+    content_ids: [product.id],
+    content_type: 'product',
+    num_items: qty
+  });
+}
+
+
       setOrderSent(true)
       clearCart()
     } catch (err) {
