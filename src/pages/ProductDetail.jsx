@@ -417,7 +417,29 @@ if (window.fbq) {
             )}
           </section>
         )}
-
+<a
+  href="https://wa.me/62434644?text=Bonjour%20je%20viens%20suite%20à%20votre%20publicité%20Facebook%20pour%20le%20thé%20Albarka"
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={() => {
+    if (window.fbq) {
+      window.fbq('trackCustom', 'WhatsAppClick');
+    }
+  }}
+  style={{
+    display: 'block',
+    marginTop: '10px',
+    backgroundColor: '#25D366',
+    color: '#fff',
+    textAlign: 'center',
+    padding: '12px',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontWeight: 'bold'
+  }}
+>
+  💬 Parler à un assistant sur WhatsApp
+</a>
         {/* Avis des utilisateurs — grand format comme référence */}
         <section className="product-reviews product-reviews-large" id="avis-clients">
           <h2 className="product-reviews-title">Avis des utilisateurs</h2>
