@@ -6,6 +6,7 @@ import { CartProvider } from './context/CartContext'
 import App from './App'
 import './firebase'
 import './index.css'
+import './performance.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

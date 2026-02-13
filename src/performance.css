@@ -1,0 +1,100 @@
+/* Optimisations CSS pour les performances */
+
+/* Utiliser will-change avec parcimonie et seulement quand nécessaire */
+.product-card {
+  will-change: auto; /* désactiver par défaut */
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.product-card:hover {
+  will-change: transform;
+}
+
+/* Optimiser les animations pour les navigateurs */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .product-card {
+    transition: none;
+  }
+}
+
+/* Contenir les éléments pour améliorer les performances de rendu */
+.product-grid {
+  contain: layout style paint;
+}
+
+.product-card {
+  contain: content;
+}
+
+/* Utiliser la transform et opacity pour les animations fluides */
+.product-card {
+  transform: translateZ(0); /* Activer l'accélération GPU */
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimiser les transitions de couleurs */
+.nav a {
+  transition: color 0.2s ease-out;
+}
+
+/* Utiliser des images SVG ou des emojis pour les icônes (plus léger que les images) */
+.logo-icon {
+  font-feature-settings: 'zero';
+}
+
+/* Content visibility pour laisser le navigateur optimiser le rendu hors-écran */
+@supports (content-visibility: auto) {
+  .product-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
+  }
+}
+
+/* Dégradé optimisé au lieu du pseudo-élément body::before */
+/* Les dégradés sont maintenant appliqués directement au body */
+body {
+  background-attachment: fixed;
+}
+
+/* Optimiser les polices */
+/* Les fonts GoogleFonts sont déjà optimisées dans l'HTML avec preload */
+
+/* Utiliser system-ui pour la fallback font */
+body {
+  font-display: swap; /* Déjà défini dans GoogleFonts, mais on s'assure ici */
+}
+
+/* Disable hardware acceleration pour éviter les flickering */
+.hero {
+  transform: translateZ(0);
+}
+
+/* Lazy images loading state */
+img[loading="lazy"] {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Eviter les layout shifts avec placeholders */
+img:not([alt]) {
+  display: none; /* éviter les images sans alt */
+}
+
+/* Optimiser le scroll pour les listes longues */
+.product-grid {
+  scroll-behavior: smooth;
+}
+
+/* Utiliser des media queries pour optimiser les imports de CSS */
+@media (max-width: 768px) {
+  /* Réduire les animations sur mobile pour les performances */
+  * {
+    animation-duration: 0.15s;
+  }
+}

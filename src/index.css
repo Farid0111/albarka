@@ -29,22 +29,16 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   background: var(--bg);
+  background-image: radial-gradient(circle at 20% 30%, rgba(45, 90, 61, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.02) 0%, transparent 40%);
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle at 20% 30%, rgba(45, 90, 61, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.02) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 0;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 #root {
