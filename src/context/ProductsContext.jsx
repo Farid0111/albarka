@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { getProducts } from '../services/firestore'
 
 const ProductsContext = createContext(null)
@@ -32,13 +32,22 @@ export function ProductsProvider({ children }) {
     }
   }, [refetch])
 
-  const getProductById = (id) => {
+  const getProductById = useCallback((id) => {
     const sid = String(id)
     return products.find((p) => String(p.id) === sid) || null
-  }
+  }, [products])
+
+  // Mémoriser la valeur du contexte pour éviter les re-rendus inutiles
+  const value = useMemo(() => ({
+    products,
+    loading,
+    error,
+    getProductById,
+    refetch,
+  }), [products, loading, error, getProductById, refetch])
 
   return (
-    <ProductsContext.Provider value={{ products, loading, error, getProductById, refetch }}>
+    <ProductsContext.Provider value={value}>
       {children}
     </ProductsContext.Provider>
   )

@@ -1,8 +1,10 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { getStrikethroughPrice } from '../utils/price'
+import LazyImage from './LazyImage'
 
-export default function ProductCard({ product }) {
+function ProductCard({ product }) {
   const { addToCart } = useCart()
   const {
     id,
@@ -19,7 +21,7 @@ export default function ProductCard({ product }) {
       <Link to={`/produits/${id}`} className="product-card-link">
         <div className="product-image">
           {image ? (
-            <img src={image} alt={name} loading="lazy" />
+            <LazyImage src={image} alt={name} />
           ) : (
             emoji
           )}
@@ -43,3 +45,5 @@ export default function ProductCard({ product }) {
     </article>
   )
 }
+
+export default memo(ProductCard)
